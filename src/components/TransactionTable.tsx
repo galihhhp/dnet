@@ -1,9 +1,34 @@
 import { FC, useMemo } from "react";
-import { Table, Tag, Input } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import {
+  Table,
+  Tag,
+  Input,
+  Button,
+  message,
+  Popconfirm,
+  DatePicker,
+  Space,
+} from "antd";
+import {
+  SearchOutlined,
+  DownloadOutlined,
+  CalendarOutlined,
+} from "@ant-design/icons";
 import { useUrlParams } from "@/hooks/useUrlParams";
+import { useAuth } from "@/hooks/useAuth";
+import { useDateRangeFilter } from "@/hooks/useDateRangeFilter";
+import {
+  exportToExcel,
+  formatCurrency,
+  formatDate,
+  formatStatus,
+  ExcelColumn,
+} from "@/utils/excelExport";
+import api from "@/utils/api";
 import dayjs from "dayjs";
 import { Transaction, Package } from "@/hooks/useAdminDashboard";
+
+const { RangePicker } = DatePicker;
 
 interface TransactionTableProps {
   transactions: Transaction[];
@@ -11,6 +36,7 @@ interface TransactionTableProps {
   loading: boolean;
   limit?: number;
   showSearch?: boolean;
+  onTransactionUpdate?: () => void;
 }
 
 export const TransactionTable: FC<TransactionTableProps> = ({
@@ -19,8 +45,18 @@ export const TransactionTable: FC<TransactionTableProps> = ({
   loading,
   limit,
   showSearch = false,
+  onTransactionUpdate,
 }) => {
   const { getParam, setParams } = useUrlParams();
+  const { user } = useAuth();
+
+  const {
+    filteredData: dateFilteredTransactions,
+    dateRange,
+    setDateRange,
+    clearDateFilter,
+    hasDateFilter,
+  } = useDateRangeFilter(transactions, { dateField: "date" });
 
   const searchTerm = getParam("search") || "";
 
@@ -30,9 +66,9 @@ export const TransactionTable: FC<TransactionTableProps> = ({
   };
 
   const filteredTransactions = useMemo(() => {
-    if (!showSearch || !searchTerm) return transactions;
+    if (!showSearch || !searchTerm) return dateFilteredTransactions;
 
-    return transactions.filter((transaction) => {
+    return dateFilteredTransactions.filter((transaction) => {
       const packageName = getPackageName(transaction.packageId);
       return (
         transaction.id.toString().includes(searchTerm) ||
@@ -45,7 +81,47 @@ export const TransactionTable: FC<TransactionTableProps> = ({
         transaction.amount.toString().includes(searchTerm)
       );
     });
-  }, [transactions, searchTerm, showSearch, packages]);
+  }, [dateFilteredTransactions, searchTerm, showSearch, packages]);
+
+  const handleExportExcel = () => {
+    try {
+      const columns: ExcelColumn[] = [
+        { key: "id", title: "Transaction ID", width: 15 },
+        {
+          key: "userId",
+          title: "User ID",
+          width: 12,
+          formatter: (id) => `User #${id}`,
+        },
+        { key: "packageName", title: "Package Name", width: 25 },
+        {
+          key: "amount",
+          title: "Amount",
+          width: 15,
+          formatter: formatCurrency,
+        },
+        { key: "status", title: "Status", width: 12, formatter: formatStatus },
+        { key: "date", title: "Date", width: 20, formatter: formatDate },
+        { key: "paymentMethod", title: "Payment Method", width: 15 },
+      ];
+
+      const exportData = finalTransactions.map((transaction) => ({
+        ...transaction,
+        packageName: getPackageName(transaction.packageId),
+      }));
+
+      exportToExcel({
+        filename: "transactions",
+        sheetName: "Transactions",
+        columns,
+        data: exportData,
+      });
+
+      message.success("Excel file downloaded successfully!");
+    } catch (error) {
+      message.error("Failed to export Excel file");
+    }
+  };
 
   const columns = [
     {
@@ -110,7 +186,9 @@ export const TransactionTable: FC<TransactionTableProps> = ({
     }
   };
 
-  const finalTransactions = showSearch ? filteredTransactions : transactions;
+  const finalTransactions = showSearch
+    ? filteredTransactions
+    : dateFilteredTransactions;
 
   const sortedTransactions = useMemo(() => {
     return [...finalTransactions].sort(
@@ -133,14 +211,40 @@ export const TransactionTable: FC<TransactionTableProps> = ({
   return (
     <>
       {showSearch && (
-        <Input
-          placeholder="Search transactions by ID, user ID, package, status, payment method, or amount..."
-          prefix={<SearchOutlined />}
-          value={searchTerm}
-          onChange={(e) => setParams({ search: e.target.value })}
-          style={{ marginBottom: 16, maxWidth: 600 }}
-          allowClear
-        />
+        <Space direction="vertical" style={{ width: "100%", marginBottom: 16 }}>
+          <Space wrap>
+            <Input
+              placeholder="Search transactions..."
+              prefix={<SearchOutlined />}
+              value={searchTerm}
+              onChange={(e) => setParams({ search: e.target.value })}
+              style={{ width: 300 }}
+              allowClear
+            />
+            <RangePicker
+              value={dateRange}
+              onChange={setDateRange}
+              placeholder={["Start Date", "End Date"]}
+              style={{ width: 250 }}
+              allowClear
+            />
+            {hasDateFilter && (
+              <Button
+                icon={<CalendarOutlined />}
+                onClick={clearDateFilter}
+                type="dashed">
+                Clear Date Filter
+              </Button>
+            )}
+            <Button
+              type="primary"
+              icon={<DownloadOutlined />}
+              onClick={handleExportExcel}
+              disabled={finalTransactions.length === 0}>
+              Export Excel
+            </Button>
+          </Space>
+        </Space>
       )}
 
       <Table

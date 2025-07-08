@@ -29,4 +29,4 @@ export const useUrlParams = () => {
   );
 
   return { urlParams, getParam, setParams };
-}; 
+};

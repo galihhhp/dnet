@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import api from "@/utils/api";
 
 export interface Transaction {
@@ -36,10 +36,13 @@ interface DashboardData {
   packages: Package[];
   loading: boolean;
   error: Error | null;
+  refetch: () => Promise<void>;
 }
 
 export const useAdminDashboard = (): DashboardData => {
-  const [data, setData] = useState<Omit<DashboardData, "loading" | "error">>({
+  const [data, setData] = useState<
+    Omit<DashboardData, "loading" | "error" | "refetch">
+  >({
     transactions: [],
     customers: [],
     packages: [],
@@ -47,31 +50,32 @@ export const useAdminDashboard = (): DashboardData => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
+  const fetchData = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const [transactionsRes, customersRes, packagesRes] = await Promise.all([
+        api.get("/transactions"),
+        api.get("/customers"),
+        api.get("/packages"),
+      ]);
+
+      setData((prevData) => ({
+        transactions: transactionsRes.data,
+        customers: customersRes.data,
+        packages: packagesRes.data,
+      }));
+    } catch (e) {
+      setError(e as Error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const [transactionsRes, customersRes, packagesRes] = await Promise.all([
-          api.get("/transactions"),
-          api.get("/customers"),
-          api.get("/packages"),
-        ]);
-
-        setData({
-          transactions: transactionsRes.data,
-          customers: customersRes.data,
-          packages: packagesRes.data,
-        });
-      } catch (e) {
-        setError(e as Error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchData();
   }, []);
 
-  return { ...data, loading, error };
+  return { ...data, loading, error, refetch: fetchData };
 };

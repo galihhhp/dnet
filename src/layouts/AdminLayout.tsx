@@ -110,14 +110,16 @@ const AdminLayout: FC<{ children: ReactNode }> = ({ children }) => {
               onClick={() => setDrawerVisible(true)}
             />
           )}
-          <Button
-            type="text"
-            danger
-            onClick={logout}
-            icon={<LogoutOutlined />}
-            style={{ fontSize: "14px" }}>
-            Sign Out
-          </Button>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <Button
+              type="text"
+              danger
+              onClick={logout}
+              icon={<LogoutOutlined />}
+              style={{ fontSize: "14px" }}>
+              Sign Out
+            </Button>
+          </div>
         </Header>
         <Content
           style={{

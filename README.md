@@ -22,15 +22,9 @@
 3. **Buka aplikasi**
    Akses `http://localhost:5173` di browser
 
-## Login Credentials
+## Waktu Pengerjaan
 
-Gunakan akun berikut untuk login:
+Proyek ini dikerjakan pada jam:
 
-- **Admin:**
-
-  - **Email:** `admin@dnet.com`
-  - **Password:** `admin123`
-
-- **Customer:**
-  - **Email:** `galih@example.com`
-  - **Password:** `password123`
+- 18.00-23.00
+- 05.00-06.30

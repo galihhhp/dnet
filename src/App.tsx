@@ -23,7 +23,6 @@ const App: FC = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
-          {/* Admin Routes */}
           <Route
             path="/admin"
             element={
@@ -39,7 +38,6 @@ const App: FC = () => {
             <Route path="transactions" element={<AdminTransactions />} />
           </Route>
 
-          {/* Customer Routes */}
           <Route
             path="/customer"
             element={

@@ -6,8 +6,9 @@
       "password": "admin123",
       "name": "Admin D-Net",
       "role": "admin",
+      "phone": "32523235",
       "avatar": null,
-      "createdAt": "2024-01-01T00:00:00.000Z"
+      "createdAt": "2025-01-01T00:00:00.000Z"
     },
     {
       "id": 2,
@@ -15,8 +16,9 @@
       "password": "password123",
       "name": "Galih P.",
       "role": "user",
+      "phone": "081234567890",
       "avatar": null,
-      "createdAt": "2024-01-15T00:00:00.000Z"
+      "createdAt": "2025-01-15T00:00:00.000Z"
     },
     {
       "id": 3,
@@ -24,8 +26,29 @@
       "password": "test123",
       "name": "Test User",
       "role": "user",
+      "phone": "081234567891",
       "avatar": null,
-      "createdAt": "2024-01-20T00:00:00.000Z"
+      "createdAt": "2025-01-20T00:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "email": "doe@example.com",
+      "password": "doe456",
+      "name": "Doe Doe",
+      "role": "user",
+      "phone": "3252352",
+      "avatar": null,
+      "createdAt": "2025-02-05T00:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "email": "john@example.com",
+      "password": "john321",
+      "name": "john john",
+      "role": "user",
+      "phone": "235235235",
+      "avatar": null,
+      "createdAt": "2025-02-15T00:00:00.000Z"
     }
   ],
   "packages": [
@@ -90,6 +113,15 @@
       "status": "active",
       "createdAt": "2023-11-15T00:00:00.000Z",
       "avatar": "https://via.placeholder.com/40x40/f093fb/ffffff?text=TU"
+    },
+    {
+      "userId": 4,
+      "name": "Doe Doe",
+      "email": "doe@example.com",
+      "phone": "3252352",
+      "status": "active",
+      "createdAt": "2025-07-08T22:59:57.263Z",
+      "id": 3
     }
   ],
   "transactions": [
@@ -99,7 +131,7 @@
       "packageId": 1,
       "amount": 15000,
       "status": "completed",
-      "date": "2024-05-20T10:30:00.000Z",
+      "date": "2025-05-20T10:30:00.000Z",
       "paymentMethod": "gopay"
     },
     {
@@ -108,7 +140,7 @@
       "packageId": 2,
       "amount": 25000,
       "status": "completed",
-      "date": "2024-05-21T09:15:00.000Z",
+      "date": "2025-05-21T09:15:00.000Z",
       "paymentMethod": "bank_transfer"
     },
     {
@@ -117,7 +149,7 @@
       "packageId": 5,
       "amount": 50000,
       "status": "completed",
-      "date": "2024-06-10T11:00:00.000Z",
+      "date": "2025-06-10T11:00:00.000Z",
       "paymentMethod": "gopay"
     },
     {
@@ -125,8 +157,8 @@
       "userId": 3,
       "packageId": 3,
       "amount": 35000,
-      "status": "pending",
-      "date": "2024-06-15T14:00:00.000Z",
+      "status": "completed",
+      "date": "2025-06-15T14:00:00.000Z",
       "paymentMethod": "dana"
     },
     {
@@ -135,7 +167,7 @@
       "packageId": 2,
       "amount": 25000,
       "status": "completed",
-      "date": "2024-07-01T08:45:00.000Z",
+      "date": "2025-07-01T08:45:00.000Z",
       "paymentMethod": "ovo"
     },
     {
@@ -144,8 +176,26 @@
       "packageId": 4,
       "amount": 10000,
       "status": "completed",
-      "date": "2024-07-22T18:00:00.000Z",
+      "date": "2025-07-22T18:00:00.000Z",
       "paymentMethod": "gopay"
+    },
+    {
+      "userId": 4,
+      "packageId": 3,
+      "amount": 35000,
+      "status": "completed",
+      "date": "2025-07-08T22:59:57.282Z",
+      "paymentMethod": "dana",
+      "id": 7
+    },
+    {
+      "userId": 4,
+      "packageId": 4,
+      "amount": 10000,
+      "status": "completed",
+      "date": "2025-07-08T22:59:57.283Z",
+      "paymentMethod": "dana",
+      "id": 8
     }
   ]
 }

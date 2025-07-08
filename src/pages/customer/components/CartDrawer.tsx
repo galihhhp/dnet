@@ -28,9 +28,8 @@ interface CartDrawerProps {
 
 export const CartDrawer: FC<CartDrawerProps> = ({ open, onClose }) => {
   const { cartItems, removeFromCart, totalPrice, clearCart } = useCart();
-  const { createTransaction } = useCustomerPackages();
+  const { createTransaction, isCreatingTransaction } = useCustomerPackages();
   const [discount, setDiscount] = useState(0);
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
   const [form] = Form.useForm();
 
@@ -66,7 +65,11 @@ export const CartDrawer: FC<CartDrawerProps> = ({ open, onClose }) => {
       message.error("Please select a payment method.");
       return;
     }
-    setIsCheckingOut(true);
+
+    if (isCreatingTransaction) {
+      return;
+    }
+
     try {
       await Promise.all(
         cartItems.map((item) => createTransaction(item, paymentMethod))
@@ -77,8 +80,6 @@ export const CartDrawer: FC<CartDrawerProps> = ({ open, onClose }) => {
       onClose();
     } catch (error) {
       message.error("Checkout failed. Please try again.");
-    } finally {
-      setIsCheckingOut(false);
     }
   };
 
@@ -95,7 +96,7 @@ export const CartDrawer: FC<CartDrawerProps> = ({ open, onClose }) => {
             type="primary"
             block
             onClick={handleCheckout}
-            loading={isCheckingOut}>
+            loading={isCreatingTransaction}>
             Checkout Now (Rp {finalPrice.toLocaleString("id-ID")})
           </Button>
         ) : null
