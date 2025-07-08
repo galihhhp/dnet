@@ -1,0 +1,151 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "admin@dnet.com",
+      "password": "admin123",
+      "name": "Admin D-Net",
+      "role": "admin",
+      "avatar": null,
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "email": "galih@example.com",
+      "password": "password123",
+      "name": "Galih P.",
+      "role": "user",
+      "avatar": null,
+      "createdAt": "2024-01-15T00:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "email": "user@test.com",
+      "password": "test123",
+      "name": "Test User",
+      "role": "user",
+      "avatar": null,
+      "createdAt": "2024-01-20T00:00:00.000Z"
+    }
+  ],
+  "packages": [
+    {
+      "id": 1,
+      "name": "D-Net 1GB",
+      "price": 15000,
+      "description": "Paket data 1GB berlaku 30 hari",
+      "duration": "30 hari",
+      "category": "Data"
+    },
+    {
+      "id": 2,
+      "name": "D-Net 2GB",
+      "price": 25000,
+      "description": "Paket data 2GB berlaku 30 hari dengan bonus YouTube",
+      "duration": "30 hari",
+      "category": "Data"
+    },
+    {
+      "id": 3,
+      "name": "D-Net 3GB",
+      "price": 35000,
+      "description": "Paket data 3GB berlaku 30 hari dengan bonus sosmed",
+      "duration": "30 hari",
+      "category": "Data"
+    },
+    {
+      "id": 4,
+      "name": "D-Net Voice 100min",
+      "price": 10000,
+      "description": "Paket nelpon 100 menit ke semua operator",
+      "duration": "7 hari",
+      "category": "Voice"
+    },
+    {
+      "id": 5,
+      "name": "D-Net Combo Sakti",
+      "price": 50000,
+      "description": "5GB Data, 20min Voice, 100 SMS",
+      "duration": "30 hari",
+      "category": "Combo"
+    }
+  ],
+  "customers": [
+    {
+      "id": 1,
+      "userId": 2,
+      "name": "Galih P.",
+      "email": "galih@example.com",
+      "phone": "081234567890",
+      "status": "active",
+      "createdAt": "2023-12-01T00:00:00.000Z",
+      "avatar": "https://via.placeholder.com/40x40/667eea/ffffff?text=GP"
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "name": "Test User",
+      "email": "user@test.com",
+      "phone": "081234567891",
+      "status": "active",
+      "createdAt": "2023-11-15T00:00:00.000Z",
+      "avatar": "https://via.placeholder.com/40x40/f093fb/ffffff?text=TU"
+    }
+  ],
+  "transactions": [
+    {
+      "id": 1,
+      "userId": 2,
+      "packageId": 1,
+      "amount": 15000,
+      "status": "completed",
+      "date": "2024-05-20T10:30:00.000Z",
+      "paymentMethod": "gopay"
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "packageId": 2,
+      "amount": 25000,
+      "status": "completed",
+      "date": "2024-05-21T09:15:00.000Z",
+      "paymentMethod": "bank_transfer"
+    },
+    {
+      "id": 3,
+      "userId": 2,
+      "packageId": 5,
+      "amount": 50000,
+      "status": "completed",
+      "date": "2024-06-10T11:00:00.000Z",
+      "paymentMethod": "gopay"
+    },
+    {
+      "id": 4,
+      "userId": 3,
+      "packageId": 3,
+      "amount": 35000,
+      "status": "pending",
+      "date": "2024-06-15T14:00:00.000Z",
+      "paymentMethod": "dana"
+    },
+    {
+      "id": 5,
+      "userId": 2,
+      "packageId": 2,
+      "amount": 25000,
+      "status": "completed",
+      "date": "2024-07-01T08:45:00.000Z",
+      "paymentMethod": "ovo"
+    },
+    {
+      "id": 6,
+      "userId": 2,
+      "packageId": 4,
+      "amount": 10000,
+      "status": "completed",
+      "date": "2024-07-22T18:00:00.000Z",
+      "paymentMethod": "gopay"
+    }
+  ]
+}
